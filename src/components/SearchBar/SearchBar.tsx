@@ -1,12 +1,21 @@
 import styles from './SearchBar.module.css'
 import toast from 'react-hot-toast'
 
-export default function SearchBar() {
+interface SearchBarProps {
+    onSubmit: (query: string) => void
+}
+
+export default function SearchBar({ onSubmit }: SearchBarProps) {
     const handleSubmit = (FormData: FormData) => {
-        if (!FormData.get('query')) {
+
+        const query = FormData.get('query') as string;
+
+        if (!query.trim()) {
             toast.error("Please enter your search query.");
             return
         }
+
+        onSubmit(query.trim())
     }
     return (
         <header className={styles.header}>
