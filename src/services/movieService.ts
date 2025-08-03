@@ -8,7 +8,7 @@ interface moviesRequestProps {
 }
 
 
-export const moviesRequest = async (query: string) => {
+export const moviesRequest = async (query: string): Promise<Movie[]> => {
     const { data } = await axios.get<moviesRequestProps>(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, {
         params: {
             include_adult: false,
@@ -21,5 +21,5 @@ export const moviesRequest = async (query: string) => {
         }
     });
 
-    return data
+    return data.results
 }

@@ -11,11 +11,16 @@ interface MovieModalProps {
 
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
 
+    if (movie === null) {
+        return
+    }
+
     const backdropClose = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
             onClose()
         }
     }
+
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -39,7 +44,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
                 </button>
                 <img
                     src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-                    alt="movie_title"
+                    alt={movie?.title}
                     className={css.image}
                 />
                 <div className={css.content}>

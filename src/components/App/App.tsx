@@ -15,7 +15,6 @@ export default function App() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleSubmit = async (query: string) => {
     try {
@@ -25,12 +24,12 @@ export default function App() {
 
       const moviesObject = await moviesRequest(query);
 
-      if (!(moviesObject.results.length > 0)) {
+      if (!(moviesObject.length > 0)) {
         toast.error('No movies found for your request.')
         return
       }
 
-      setMovies(moviesObject.results)
+      setMovies(moviesObject)
 
     } catch (error) {
       setIsError(true)
@@ -41,11 +40,10 @@ export default function App() {
   }
   const selectMovie = (movie: Movie | null) => {
     setSelectedMovie(movie)
-    setIsModalOpen(true)
   }
 
   const closeModal = () => {
-    setIsModalOpen(false)
+    selectMovie(null)
   }
 
   return (
@@ -55,7 +53,7 @@ export default function App() {
       {isError && <ErrorMessage />}
       {isLoading && <Loader />}
       <MovieGrid movies={movies} onSelect={selectMovie} />
-      {isModalOpen && <MovieModal movie={selectedMovie} onClose={closeModal} />}
+      {selectedMovie && <MovieModal movie={selectedMovie} onClose={closeModal} />}
     </>
   )
 }
